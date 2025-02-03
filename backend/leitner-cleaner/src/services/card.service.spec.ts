@@ -1,6 +1,7 @@
 import { CardService } from './card.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { FindManyOptions } from 'typeorm';
 import { Card } from '../entities';
 const cards = [
     {
@@ -45,7 +46,14 @@ describe('CardService tests', () => {
                 {
                     provide: getRepositoryToken(Card),
                     useValue: {
-                        find: jest.fn(() => cards)
+                        find: jest.fn((queryParams?: FindManyOptions<Card>) => {
+                            let result = cards;
+                            if (queryParams) {
+                                console.log(queryParams.where['category']);
+                                result = cards.filter(card => card.category === queryParams.where['category']);
+                            }
+                            return result;
+                        })
                     }
                 }
             ],
@@ -71,5 +79,9 @@ describe('CardService tests', () => {
 
     it('should return all cards of category 1', () => {
         expect(service.getCategory(1)).toEqual(getCardsOfCategory(1));
+    });
+
+    it('should return all cards of category 2', () => {
+        expect(service.getCategory(2)).toEqual(getCardsOfCategory(2));
     });
 });

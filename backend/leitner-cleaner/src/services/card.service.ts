@@ -26,4 +26,14 @@ export class CardService {
         const newCard: CardRepoPayload = {...card, category: 1};
         return this.cardRepository.save(newCard);
     }
+
+    async updateTag(id: number, tag: string) {
+        return {
+            id: 2,
+            category: 1,
+            question: 'What is the capital of Spain?',
+            answer: 'Madrid',
+            tag: 'test3'
+        };
+    }
 }

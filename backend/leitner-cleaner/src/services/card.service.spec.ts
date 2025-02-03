@@ -139,4 +139,12 @@ describe('CardService tests', () => {
         await service.create(newCard);
         expect(cards.length).toEqual(oldLength + 1);
     });
+
+    it('updateTag should return card with the updated card', async () => {
+        const id = 2;
+        const tag = 'test3';
+        const updatedCard = await service.updateTag(id, tag);
+        expect(updatedCard).toEqual({...cards[id-1], tag});
+    });
+    
 });

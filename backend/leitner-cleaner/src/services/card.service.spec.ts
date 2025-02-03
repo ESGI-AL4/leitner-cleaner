@@ -16,25 +16,26 @@ const cards = [
         category: 1,
         question: 'What is the capital of Spain?',
         answer: 'Madrid',
-        tag: null
+        tag: 'test2'
     },
     {
         id: 3,
         category: 2,
         question: 'What is the capital of Germany?',
         answer: 'Berlin',
-        tag: null
+        tag: 'test'
     },
     {
         id: 4,
         category: 3,
         question: 'What is the capital of Italy?',
         answer: 'Rome',
-        tag: null
+        tag: 'test'
     }
 ];
 
 const getCardsOfCategory = (category: number) => cards.filter(card => card.category === category);
+const getCardsWithTag = (tag: string) => cards.filter(card => card.tag === tag);
 
 describe('CardService tests', () => {
     let service: CardService;
@@ -49,8 +50,9 @@ describe('CardService tests', () => {
                         find: jest.fn((queryParams?: FindManyOptions<Card>) => {
                             let result = cards;
                             if (queryParams) {
-                                console.log(queryParams.where['category']);
-                                result = cards.filter(card => card.category === queryParams.where['category']);
+                                if(queryParams.where['category']) {
+                                    result = cards.filter(card => card.category === queryParams.where['category']);
+                                }
                             }
                             return result;
                         })
@@ -83,5 +85,10 @@ describe('CardService tests', () => {
 
     it('should return all cards of category 2', () => {
         expect(service.getCategory(2)).toEqual(getCardsOfCategory(2));
+    });
+
+    it('should return all cards with tag "test"', () => {
+        const tag = 'test';
+        expect(service.getTag(tag)).toEqual(getCardsWithTag(tag));
     });
 });

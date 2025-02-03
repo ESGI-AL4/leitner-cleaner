@@ -15,4 +15,23 @@ export class CardService {
     getCategory(category: number) {
         return this.cardRepository.find({where: {category}});
     }
+
+    getTag(tag: string) {
+        return [
+            {
+                id: 3,
+                category: 2,
+                question: 'What is the capital of Germany?',
+                answer: 'Berlin',
+                tag: 'test'
+            },
+            {
+                id: 4,
+                category: 3,
+                question: 'What is the capital of Italy?',
+                answer: 'Rome',
+                tag: 'test'
+            }
+        ];
+    }
 }

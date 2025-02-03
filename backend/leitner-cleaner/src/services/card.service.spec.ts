@@ -31,7 +31,9 @@ const cards = [
         answer: 'Rome',
         tag: null
     }
-]
+];
+
+const getCardsOfCategory = (category: number) => cards.filter(card => card.category === category);
 
 describe('CardService tests', () => {
     let service: CardService;
@@ -65,5 +67,9 @@ describe('CardService tests', () => {
         };
         cards.push(newCard);
         expect(service.getAll()).toEqual(cards);
+    });
+
+    it('should return all cards of category 1', () => {
+        expect(service.getCategory(1)).toEqual(getCardsOfCategory(1));
     });
 });

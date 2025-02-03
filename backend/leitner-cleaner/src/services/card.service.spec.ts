@@ -50,7 +50,9 @@ describe('CardService tests', () => {
                         find: jest.fn((queryParams?: FindManyOptions<Card>) => {
                             let result = cards;
                             if (queryParams) {
-                                if(queryParams.where['category']) {
+                                if(queryParams.where['tag']) {
+                                    result = cards.filter(card => card.tag === queryParams.where['tag']);
+                                } else if(queryParams.where['category']) {
                                     result = cards.filter(card => card.category === queryParams.where['category']);
                                 }
                             }
@@ -89,6 +91,11 @@ describe('CardService tests', () => {
 
     it('should return all cards with tag "test"', () => {
         const tag = 'test';
+        expect(service.getTag(tag)).toEqual(getCardsWithTag(tag));
+    });
+
+    it('should return all cards with tag "test2"', () => {
+        const tag = 'test2';
         expect(service.getTag(tag)).toEqual(getCardsWithTag(tag));
     });
 });

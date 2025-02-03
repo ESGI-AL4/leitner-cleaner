@@ -57,6 +57,13 @@ describe('CardService tests', () => {
                                 }
                             }
                             return result;
+                        }),
+                        save: jest.fn((card) => {
+                            const newCard = {
+                                id: cards.length,
+                                ...card
+                            };
+                            return newCard;
                         })
                     }
                 }
@@ -105,7 +112,19 @@ describe('CardService tests', () => {
             answer: 'London',
             tag: null
         };
+        const newId = cards.length;
         const createdCard = await service.create(newCard);
-        expect(createdCard).toEqual({...newCard, id: 5, category: 1});
+        expect(createdCard).toEqual({...newCard, id: newId, category: 1});
+    });
+
+    it('create should return correct card with tag', async () => {
+        const newCard = {
+            question: 'What is the capital of the United Kingdom?',
+            answer: 'London',
+            tag: 'test'
+        };
+        const newId = cards.length;
+        const createdCard = await service.create(newCard);
+        expect(createdCard).toEqual({...newCard, id: newId, category: 1});
     });
 });

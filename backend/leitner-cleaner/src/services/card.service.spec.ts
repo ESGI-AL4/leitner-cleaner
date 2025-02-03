@@ -63,6 +63,7 @@ describe('CardService tests', () => {
                                 id: cards.length,
                                 ...card
                             };
+                            cards.push(newCard);
                             return newCard;
                         })
                     }
@@ -126,5 +127,16 @@ describe('CardService tests', () => {
         const newId = cards.length;
         const createdCard = await service.create(newCard);
         expect(createdCard).toEqual({...newCard, id: newId, category: 1});
+    });
+
+    it('create should create a card', async () => {
+        const newCard = {
+            question: 'What is the capital of the United Kingdom?',
+            answer: 'London',
+            tag: null
+        };
+        const oldLength = cards.length;
+        await service.create(newCard);
+        expect(cards.length).toEqual(oldLength + 1);
     });
 });

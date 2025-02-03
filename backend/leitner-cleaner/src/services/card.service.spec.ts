@@ -1,4 +1,7 @@
 import { CardService } from './card.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Card } from '../entities';
 const cards = [
     {
         id: 1,
@@ -33,12 +36,34 @@ const cards = [
 describe('CardService tests', () => {
     let service: CardService;
 
-    beforeEach(() => {
-        service = new CardService();
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            providers: [
+                CardService,
+                {
+                    provide: getRepositoryToken(Card),
+                    useValue: {
+                        find: jest.fn(() => cards)
+                    }
+                }
+            ],
+        }).compile();
+        service = module.get<CardService>(CardService);
     });
 
     it('should return all cards', () => {
         expect(service.getAll()).toEqual(cards);
     });
-        
+    
+    it('should return all cards after adding a new card', () => {
+        const newCard = {
+            id: 5,
+            category: 3,
+            question: 'What is the capital of the United Kingdom?',
+            answer: 'London',
+            tag: null
+        };
+        cards.push(newCard);
+        expect(service.getAll()).toEqual(cards);
+    });
 });

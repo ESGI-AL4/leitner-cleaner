@@ -98,4 +98,14 @@ describe('CardService tests', () => {
         const tag = 'test2';
         expect(service.getTag(tag)).toEqual(getCardsWithTag(tag));
     });
+
+    it('create should return correct card', async () => {
+        const newCard = {
+            question: 'What is the capital of the United Kingdom?',
+            answer: 'London',
+            tag: null
+        };
+        const createdCard = await service.create(newCard);
+        expect(createdCard).toEqual({...newCard, id: 5, category: 1});
+    });
 });

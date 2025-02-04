@@ -24,9 +24,15 @@ describe('QuizzService tests', () => {
         cardService = module.get<CardService>(CardService);
     });
 
-    it('should only category 1', () => {
+    it('should return only category 1', () => {
         const date = new Date('2024-01-01');
         const categories = service.getQuizCategories(date);
         expect(categories).toEqual([1]);
+    });
+
+    it('should return categories 1 and 2', () => {
+        const date = new Date('2024-01-02');
+        const categories = service.getQuizCategories(date);
+        expect(categories).toEqual([1, 2]);
     });
 })

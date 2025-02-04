@@ -48,9 +48,15 @@ describe('QuizzService tests', () => {
         expect(categories).toEqual([1, 2, 3]);
     });
 
-    it('should return categories 1, 2 and 3 with day 8', () => {
-        const date = new Date('2024-01-08');
+    it('should return categories 1, 2 and 3 with day 12', () => {
+        const date = new Date('2024-01-12');
         const categories = service.getQuizCategories(date);
         expect(categories).toEqual([1, 2, 3]);
+    });
+
+    it('should return categories 1 to 7 on day 64', () => {
+        const date = new Date('2024-03-04');
+        const categories = service.getQuizCategories(date);
+        expect(categories).toEqual([1, 2, 3, 4, 5, 6, 7]);
     });
 })

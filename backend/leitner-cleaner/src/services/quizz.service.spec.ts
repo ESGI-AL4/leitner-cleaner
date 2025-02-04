@@ -40,5 +40,11 @@ describe('QuizzService tests', () => {
         const date = new Date('2024-01-06');
         const categories = service.getQuizCategories(date);
         expect(categories).toEqual([1, 2]);
-    })
+    });
+
+    it('should return categories 1, 2 and 3', () => {
+        const date = new Date('2024-01-04');
+        const categories = service.getQuizCategories(date);
+        expect(categories).toEqual([1, 2, 3]);
+    });
 })

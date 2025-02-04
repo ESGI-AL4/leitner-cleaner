@@ -27,11 +27,11 @@ export class CardService {
         return this.cardRepository.save(newCard);
     }
 
-    async updateTag(id: number, tag: string) {
+    async updateTag(id: string, tag: string) {
         return this.cardRepository.update(id, {tag});
     }
 
-    async updateCategory(id: number, category: number) {
+    async updateCategory(id: string, category: number) {
         return this.cardRepository.update(id, {category});
     }
 }

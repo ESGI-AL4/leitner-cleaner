@@ -2,8 +2,8 @@ import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
 
 @Entity()
 export class Card {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     category: number;
@@ -14,6 +14,6 @@ export class Card {
     @Column()
     answer: string;
 
-    @Column()
+    @Column({nullable: true})
     tag: string;
 }

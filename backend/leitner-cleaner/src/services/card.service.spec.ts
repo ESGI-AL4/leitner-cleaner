@@ -5,49 +5,49 @@ import { FindManyOptions } from 'typeorm';
 import { Card } from '../entities';
 const cards = [
     {
-        id: 1,
+        id: 'a420531b-6123-4b88-a642-2b593fbbaf24',
         category: 1,
         question: 'What is the capital of France?',
         answer: 'Paris',
         tag: null
     },
     {
-        id: 2,
+        id: 'a420531b-6123-4b88-a642-2b593fbbaf25',
         category: 1,
         question: 'What is the capital of Spain?',
         answer: 'Madrid',
         tag: 'test2'
     },
     {
-        id: 3,
+        id: 'a420531b-6123-4b88-a642-2b593fbbaf26',
         category: 2,
         question: 'What is the capital of Germany?',
         answer: 'Berlin',
         tag: 'test'
     },
     {
-        id: 4,
+        id: 'a420531b-6123-4b88-a642-2b593fbbaf27',
         category: 3,
         question: 'What is the capital of Italy?',
         answer: 'Rome',
         tag: 'test'
     },
     {
-        id: 5,
+        id: 'a420531b-6123-4b88-a642-2b593fbbaf28',
         category: 2,
         question: 'What is the capital of the United States?',
         answer: 'Washington D.C.',
         tag: null
     },
     {
-        id: 6,
+        id: 'a420531b-6123-4b88-a642-2b593fbbaf29',
         category: 1,
         question: 'What is the capital of the United Kingdom?',
         answer: 'London',
         tag: null
     },
     {
-        id: 7,
+        id: 'a420531b-6123-4b88-a642-2b593fbbaf30',
         category: 2,
         question: 'What is the capital of Japan?',
         answer: 'Tokyo',
@@ -111,7 +111,7 @@ describe('CardService tests', () => {
     
     it('should return all cards after adding a new card', () => {
         const newCard = {
-            id: 8,
+            id: 'a420531b-6123-4b88-a642-2b593fbbaf31',
             category: 3,
             question: 'What is the capital of the United Kingdom?',
             answer: 'London',
@@ -173,21 +173,21 @@ describe('CardService tests', () => {
     });
 
     it('updateTag should return card with the updated card', async () => {
-        const id = 2;
+        const id = 'a420531b-6123-4b88-a642-2b593fbbaf24';
         const tag = 'test3';
         const updatedCard = await service.updateTag(id, tag);
-        expect(updatedCard).toEqual({...cards[id-1], tag});
+        expect(updatedCard).toEqual({...(cards.find(card => card.id === id)), tag});
     });
 
     it('updateTag should return card with updates with another value', async () => {
-        const id = 3;
+        const id = 'a420531b-6123-4b88-a642-2b593fbbaf25';
         const tag = 'test4';
         const updatedCard = await service.updateTag(id, tag);
-        expect(updatedCard).toEqual({...cards[id-1], tag});
+        expect(updatedCard).toEqual({...(cards.find(card => card.id === id)), tag});
     });
 
     it('updateTag should update the tag in the database', async () => {
-        const id = 4;
+        const id = 'a420531b-6123-4b88-a642-2b593fbbaf26';
         const tag = 'test5';
         await service.updateTag(id, tag);
         const updatedCard = cards.find(card => card.id === id);
@@ -195,21 +195,21 @@ describe('CardService tests', () => {
     });
 
     it('updateCategory should return card with the updated category', async () => {
-        const id = 5;
+        const id = 'a420531b-6123-4b88-a642-2b593fbbaf27';
         const category = 3;
         const updatedCard = await service.updateCategory(id, category);
-        expect(updatedCard).toEqual({...cards[id-1], category});
+        expect(updatedCard).toEqual({...(cards.find(card => card.id === id)), category});
     });
 
     it('updateCategory should return card with updates with another value', async () => {
-        const id = 6;
+        const id = 'a420531b-6123-4b88-a642-2b593fbbaf28';
         const category = 2;
         const updatedCard = await service.updateCategory(id, category);
-        expect(updatedCard).toEqual({...cards[id-1], category});
+        expect(updatedCard).toEqual({...(cards.find(card => card.id === id)), category});
     });
     
     it('updateCategory should update the category in the database', async () => {
-        const id = 7;
+        const id = 'a420531b-6123-4b88-a642-2b593fbbaf29';
         const category = 3;
         await service.updateCategory(id, category);
         const updatedCard = cards.find(card => card.id === id);

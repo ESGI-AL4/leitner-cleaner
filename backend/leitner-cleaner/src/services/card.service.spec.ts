@@ -90,6 +90,13 @@ describe('CardService tests', () => {
                         findOne: jest.fn((queryParams) => {
                             const card = cards.find(card => card.id === queryParams.where.id);
                             return card;
+                        }),
+                        update: jest.fn((id, card) => {
+                            const updatedCard = cards.find(card => card.id === id);
+                            Object.keys(card).forEach(key => {
+                                updatedCard[key] = card[key];
+                            });
+                            return updatedCard;
                         })
                     }
                 }

@@ -28,9 +28,7 @@ export class CardService {
     }
 
     async updateTag(id: number, tag: string) {
-        const card = await this.cardRepository.findOne({where: {id}});
-        card.tag = tag;
-        return this.cardRepository.save(card);
+        return this.cardRepository.update(id, {tag});
     }
 
     async updateCategory(id: number, category: number) {

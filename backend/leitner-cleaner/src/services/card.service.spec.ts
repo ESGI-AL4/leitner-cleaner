@@ -195,8 +195,15 @@ describe('CardService tests', () => {
     });
 
     it('updateCategory should return card with the updated category', async () => {
-        const id = 1;
+        const id = 5;
         const category = 3;
+        const updatedCard = await service.updateCategory(id, category);
+        expect(updatedCard).toEqual({...cards[id-1], category});
+    });
+
+    it('updateCategory should return card with updates with another value', async () => {
+        const id = 6;
+        const category = 2;
         const updatedCard = await service.updateCategory(id, category);
         expect(updatedCard).toEqual({...cards[id-1], category});
     });

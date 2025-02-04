@@ -32,12 +32,8 @@ export class CardService {
     }
 
     async updateCategory(id: number, category: number) {
-        return {
-            id: 1,
-            category: 3,
-            question: 'What is the capital of France?',
-            answer: 'Paris',
-            tag: null
-        };
+        let card = await this.cardRepository.findOne({where: {id}});
+        card.category = category;
+        return card;
     }
 }

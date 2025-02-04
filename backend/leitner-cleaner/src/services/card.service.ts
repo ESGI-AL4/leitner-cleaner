@@ -32,8 +32,6 @@ export class CardService {
     }
 
     async updateCategory(id: number, category: number) {
-        let card = await this.cardRepository.findOne({where: {id}});
-        card.category = category;
-        return card;
+        return this.cardRepository.update(id, {category});
     }
 }

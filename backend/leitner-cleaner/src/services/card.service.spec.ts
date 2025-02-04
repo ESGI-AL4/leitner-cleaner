@@ -208,4 +208,11 @@ describe('CardService tests', () => {
         expect(updatedCard).toEqual({...cards[id-1], category});
     });
     
+    it('updateCategory should update the category in the database', async () => {
+        const id = 7;
+        const category = 3;
+        await service.updateCategory(id, category);
+        const updatedCard = cards.find(card => card.id === id);
+        expect(updatedCard.category).toEqual(category);
+    });
 });

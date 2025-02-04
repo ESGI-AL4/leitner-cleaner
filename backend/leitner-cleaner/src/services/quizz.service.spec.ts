@@ -35,4 +35,10 @@ describe('QuizzService tests', () => {
         const categories = service.getQuizCategories(date);
         expect(categories).toEqual([1, 2]);
     });
+
+    it('should return categories 1 and 2 with another even day', () => {
+        const date = new Date('2024-01-06');
+        const categories = service.getQuizCategories(date);
+        expect(categories).toEqual([1, 2]);
+    })
 })

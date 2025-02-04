@@ -65,6 +65,10 @@ describe('CardService tests', () => {
                             };
                             cards.push(newCard);
                             return newCard;
+                        }),
+                        findOne: jest.fn((queryParams) => {
+                            const card = cards.find(card => card.id === queryParams.where.id);
+                            return card;
                         })
                     }
                 }
@@ -143,6 +147,13 @@ describe('CardService tests', () => {
     it('updateTag should return card with the updated card', async () => {
         const id = 2;
         const tag = 'test3';
+        const updatedCard = await service.updateTag(id, tag);
+        expect(updatedCard).toEqual({...cards[id-1], tag});
+    });
+
+    it('updateTag should return card with updates with another value', async () => {
+        const id = 3;
+        const tag = 'test4';
         const updatedCard = await service.updateTag(id, tag);
         expect(updatedCard).toEqual({...cards[id-1], tag});
     });

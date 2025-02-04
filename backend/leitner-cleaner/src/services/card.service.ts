@@ -28,12 +28,8 @@ export class CardService {
     }
 
     async updateTag(id: number, tag: string) {
-        return {
-            id: 2,
-            category: 1,
-            question: 'What is the capital of Spain?',
-            answer: 'Madrid',
-            tag: 'test3'
-        };
+        const card = await this.cardRepository.findOne({where: {id}});
+        card.tag = tag;
+        return card;
     }
 }

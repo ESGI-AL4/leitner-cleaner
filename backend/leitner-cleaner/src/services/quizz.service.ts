@@ -4,12 +4,14 @@ import { CardService } from "./card.service";
 @Injectable()
 export class QuizzService {
     getQuizCategories(date: Date) {
-        if(date.getDate() % 4 === 0) {
-            return [1, 2, 3];
+        const categories = [1];
+        let factor = 2;
+        for(let i = 2; i <= 3; i++) {
+            if(date.getDate() % factor === 0) {
+                categories.push(i);
+            }
+            factor *= 2;
         }
-        if (date.getDate() % 2 === 0) {
-            return [1, 2];
-        }
-        return [1];
+        return categories;
     }
 }

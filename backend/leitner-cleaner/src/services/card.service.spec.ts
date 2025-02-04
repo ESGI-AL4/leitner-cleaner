@@ -31,6 +31,27 @@ const cards = [
         question: 'What is the capital of Italy?',
         answer: 'Rome',
         tag: 'test'
+    },
+    {
+        id: 5,
+        category: 2,
+        question: 'What is the capital of the United States?',
+        answer: 'Washington D.C.',
+        tag: null
+    },
+    {
+        id: 6,
+        category: 1,
+        question: 'What is the capital of the United Kingdom?',
+        answer: 'London',
+        tag: null
+    },
+    {
+        id: 7,
+        category: 2,
+        question: 'What is the capital of Japan?',
+        answer: 'Tokyo',
+        tag: 'test'
     }
 ];
 
@@ -83,7 +104,7 @@ describe('CardService tests', () => {
     
     it('should return all cards after adding a new card', () => {
         const newCard = {
-            id: 5,
+            id: 8,
             category: 3,
             question: 'What is the capital of the United Kingdom?',
             answer: 'London',
@@ -156,6 +177,14 @@ describe('CardService tests', () => {
         const tag = 'test4';
         const updatedCard = await service.updateTag(id, tag);
         expect(updatedCard).toEqual({...cards[id-1], tag});
+    });
+
+    it('updateTag should update the tag in the database', async () => {
+        const id = 4;
+        const tag = 'test5';
+        await service.updateTag(id, tag);
+        const updatedCard = cards.find(card => card.id === id);
+        expect(updatedCard.tag).toEqual(tag);
     });
 
     it('updateCategory should return card with the updated category', async () => {

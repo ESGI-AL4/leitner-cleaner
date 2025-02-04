@@ -5,7 +5,7 @@ import {Repository} from 'typeorm';
 import { CardUserData, CardRepoPayload } from 'types';
 
 @Injectable()
-export class CardService {
+export class CardService { 
     constructor(
         @InjectRepository(Card)
         private cardRepository: Repository<Card>

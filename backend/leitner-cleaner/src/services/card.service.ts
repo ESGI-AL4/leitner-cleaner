@@ -32,4 +32,14 @@ export class CardService {
         card.tag = tag;
         return card;
     }
+
+    async updateCategory(id: number, category: number) {
+        return {
+            id: 1,
+            category: 3,
+            question: 'What is the capital of France?',
+            answer: 'Paris',
+            tag: null
+        };
+    }
 }

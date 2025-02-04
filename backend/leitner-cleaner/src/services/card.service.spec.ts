@@ -157,5 +157,12 @@ describe('CardService tests', () => {
         const updatedCard = await service.updateTag(id, tag);
         expect(updatedCard).toEqual({...cards[id-1], tag});
     });
+
+    it('updateCategory should return card with the updated category', async () => {
+        const id = 1;
+        const category = 3;
+        const updatedCard = await service.updateCategory(id, category);
+        expect(updatedCard).toEqual({...cards[id-1], category});
+    });
     
 });

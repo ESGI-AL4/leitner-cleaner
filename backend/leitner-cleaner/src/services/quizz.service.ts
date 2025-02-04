@@ -4,7 +4,7 @@ import { CardService } from "./card.service";
 @Injectable()
 export class QuizzService {
     getQuizCategories(date: Date) {
-        if(date.getDate() === 4) {
+        if(date.getDate() % 4 === 0) {
             return [1, 2, 3];
         }
         if (date.getDate() % 2 === 0) {

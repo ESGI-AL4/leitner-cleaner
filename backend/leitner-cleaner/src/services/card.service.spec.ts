@@ -56,6 +56,7 @@ const cards = [
 ];
 
 const getCardsOfCategory = (category: number) => cards.filter(card => card.category === category);
+const getCardsOfCategories = (categories: number[]) => cards.filter(card => categories.includes(card.category));
 const getCardsWithTag = (tag: string) => cards.filter(card => card.tag === tag);
 
 describe('CardService tests', () => {
@@ -214,5 +215,11 @@ describe('CardService tests', () => {
         await service.updateCategory(id, category);
         const updatedCard = cards.find(card => card.id === id);
         expect(updatedCard.category).toEqual(category);
+    });
+
+    it('getCategories should return all cards of categories 1 and 2', async () => {
+        const categories = [1, 2];
+        const result = getCardsOfCategories(categories);
+        expect(await service.getCategories(categories)).toEqual(result);
     });
 });

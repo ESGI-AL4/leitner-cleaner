@@ -3,6 +3,17 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { FindManyOptions } from 'typeorm';
 import { Card } from '../entities';
+
+const uuidsForCreation = [
+    'a420531b-6123-4b88-a642-2b593fbbaf32',
+    'a420531b-6123-4b88-a642-2b593fbbaf33',
+    'a420531b-6123-4b88-a642-2b593fbbaf34',
+]
+
+const getUUidForCreation = () => {
+    return uuidsForCreation.shift();
+}
+
 const cards = [
     {
         id: 'a420531b-6123-4b88-a642-2b593fbbaf24',
@@ -82,7 +93,7 @@ describe('CardService tests', () => {
                         }),
                         save: jest.fn((card) => {
                             const newCard = {
-                                id: cards.length,
+                                id: getUUidForCreation(),
                                 ...card
                             };
                             cards.push(newCard);
@@ -146,7 +157,8 @@ describe('CardService tests', () => {
             answer: 'London',
             tag: null
         };
-        const newId = cards.length;
+        const newId = uuidsForCreation[0];
+        console.log(uuidsForCreation)
         const createdCard = await service.create(newCard);
         expect(createdCard).toEqual({...newCard, id: newId, category: 1});
     });
@@ -157,7 +169,7 @@ describe('CardService tests', () => {
             answer: 'London',
             tag: 'test'
         };
-        const newId = cards.length;
+        const newId = uuidsForCreation[0];
         const createdCard = await service.create(newCard);
         expect(createdCard).toEqual({...newCard, id: newId, category: 1});
     });
@@ -219,7 +231,16 @@ describe('CardService tests', () => {
 
     it('getCategories should return all cards of categories 1 and 2', async () => {
         const categories = [1, 2];
-        const result = getCardsOfCategories(categories);
-        expect(await service.getCategories(categories)).toEqual(result);
+        const result = getCardsOfCategories(categories).sort((card1, card2) => card1.id.localeCompare(card2.id));   
+        expect((await service.getCategories(categories)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);
+    });
+
+    it('getCategories should return all cards of categories 1 and 3', async () => {
+        const categories = [1, 3];
+        const result = getCardsOfCategories(categories).sort((card1, card2) => card1.id.localeCompare(card2.id));   
+        console.log((await service.getCategories(categories)).sort((card1, card2) => card1.id.localeCompare(card2.id)))
+        console.log('-------------------------------------')
+        console.log(result)
+        expect((await service.getCategories(categories)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);
     });
 });

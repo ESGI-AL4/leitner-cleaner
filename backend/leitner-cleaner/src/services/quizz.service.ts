@@ -17,4 +17,13 @@ export class QuizzService {
         }
         return categories;
     }
+
+    getQuizCards(categories: number[]) {
+        return [{
+            id: 1,
+            question: 'Question 1',
+            answer: 'Answer 1',
+            category: 1
+        }]
+    }
 }

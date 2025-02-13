@@ -3,7 +3,9 @@ import { CardService } from "./card.service";
 
 @Injectable()
 export class QuizzService {
-    getQuizCategories(date: Date) {
+    constructor(private cardService: CardService) {}
+
+    getQuizzCategories(date: Date) {
         //Difference in days between the date and the first day of the year
         const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
         const dayDifference = Math.ceil((date.getTime() - firstDayOfYear.getTime()) / (1000 * 3600 * 24));
@@ -16,14 +18,5 @@ export class QuizzService {
             factor *= 2;
         }
         return categories;
-    }
-
-    getQuizCards(categories: number[]) {
-        return [{
-            id: 1,
-            question: 'Question 1',
-            answer: 'Answer 1',
-            category: 1
-        }]
     }
 }

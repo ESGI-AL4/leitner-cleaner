@@ -78,6 +78,10 @@ describe('QuizzService tests', () => {
                 return {
                     getCategories: jest.fn((categories: number[]) => {
                         return cards.filter(card => categories.includes(card.category));
+                    }),
+                    updateCategory: jest.fn((id: string, category: number) => {
+                        const card = cards.find(card => card.id === id);
+                        card.category = category;
                     })
                 }
             }
@@ -136,4 +140,11 @@ describe('QuizzService tests', () => {
         const expectedQuestions = getCardsOfCategories([1, 2]);
         expect(questions).toEqual(expectedQuestions);
     });
+
+    it('should change category of card to 1 when failing question', () => {
+        const id = 'a420531b-6123-4b88-a642-2b593fbbaf31';
+        service.answerQuestion(id, false);
+        expect(cards.find(card => card.id === id).category).toBe(1);
+    });
+
 })

@@ -24,4 +24,8 @@ export class QuizzService {
         const categories = this.getQuizzCategories(date);
         return this.cardService.getCategories(categories);
     }
+
+    answerQuestion(id: string, correct: boolean) {
+        this.cardService.updateCategory(id, 1);
+    }
 }

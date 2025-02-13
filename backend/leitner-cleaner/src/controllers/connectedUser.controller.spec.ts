@@ -1,8 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { ConnectedUserController } from './connectedUser.controller';
 import { CardService } from '../services';
-import { Card } from '../entities';
-import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('ConnectedUserController tests', () => {
 
@@ -67,7 +65,9 @@ describe('ConnectedUserController tests', () => {
             ]
         }).useMocker(token => {
             if(token === CardService) {
-                return {}
+                return {
+                    getAll: jest.fn(() => cards)
+                }
             }
         }).compile();
         
@@ -75,6 +75,18 @@ describe('ConnectedUserController tests', () => {
     })
 
     it('should return all cards', async () => {
+        expect(await controller.getCards()).toEqual(cards);
+    });
+
+    it('should return all cards after adding one', async () => {
+        const newCard = {
+            id: 'a420531b-6123-4b88-a642-2b593fbbaf31',
+            category: 1,
+            question: 'What is the capital of Canada?',
+            answer: 'Ottawa',
+            tag: null
+        }
+        cards.push(newCard);
         expect(await controller.getCards()).toEqual(cards);
     });
 

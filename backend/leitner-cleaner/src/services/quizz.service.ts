@@ -19,4 +19,23 @@ export class QuizzService {
         }
         return categories;
     }
+
+    getQuizz(date?: Date) {
+        return [
+            {
+                id: 'a420531b-6123-4b88-a642-2b593fbbaf24',
+                category: 1,
+                question: 'What is the capital of France?',
+                answer: 'Paris',
+                tag: null
+            },
+            {
+                id: 'a420531b-6123-4b88-a642-2b593fbbaf25',
+                category: 1,
+                question: 'What is the capital of Spain?',
+                answer: 'Madrid',
+                tag: 'test2'
+            }
+        ]
+    }
 }

@@ -40,30 +40,24 @@ export class ConnectedUserController {
             },
             {
                 id: 'a420531b-6123-4b88-a642-2b593fbbaf28',
-                category: 4,
+                category: 2,
                 question: 'What is the capital of the United States?',
                 answer: 'Washington D.C.',
                 tag: null
             },
             {
                 id: 'a420531b-6123-4b88-a642-2b593fbbaf29',
-                category: 5,
+                category: 1,
                 question: 'What is the capital of the United Kingdom?',
                 answer: 'London',
                 tag: null
             },
             {
                 id: 'a420531b-6123-4b88-a642-2b593fbbaf30',
-                category: 6,
+                category: 2,
                 question: 'What is the capital of Japan?',
                 answer: 'Tokyo',
-                tag: null
-            },
-            {
-                id: 'a420531b-6123-4b88-a642-2b593fbbaf31',
-                category: 7,
-                question: 'What is the capital of China?',
-                answer: 'Beijing',
+                tag: 'test'
             }
         ];
     }

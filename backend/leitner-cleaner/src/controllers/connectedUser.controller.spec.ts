@@ -1,11 +1,13 @@
 import { Test } from '@nestjs/testing';
 import { ConnectedUserController } from './connectedUser.controller';
-import { CardService } from '../services/card.service';
+import { CardService } from '../services';
+import { Card } from '../entities';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('ConnectedUserController tests', () => {
 
-    let cardService: CardService;
-
+    
+    let controller: ConnectedUserController;
     const cards = [
         {
             id: 'a420531b-6123-4b88-a642-2b593fbbaf24',
@@ -60,20 +62,20 @@ describe('ConnectedUserController tests', () => {
 
     beforeEach(async () => {
         const module = await Test.createTestingModule({
-            controllers: [ConnectedUserController],
-            providers: []
+            controllers: [
+                ConnectedUserController
+            ]
         }).useMocker(token => {
             if(token === CardService) {
-                return {
-                    getAll: () => cards
-                }
+                return {}
             }
         }).compile();
-        cardService = module.get<CardService>(CardService);
+        
+        controller = module.get<ConnectedUserController>(ConnectedUserController);
     })
-    
+
     it('should return all cards', async () => {
-        expect(await cardService.getAll()).toEqual(cards);
+        expect(await controller.getCards()).toEqual(cards);
     });
 
 });

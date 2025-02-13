@@ -82,6 +82,9 @@ describe('QuizzService tests', () => {
                     updateCategory: jest.fn((id: string, category: number) => {
                         const card = cards.find(card => card.id === id);
                         card.category = category;
+                    }),
+                    getCardCategory: jest.fn((id: string) => {
+                        return cards.find(card => card.id === id).category;
                     })
                 }
             }
@@ -141,15 +144,20 @@ describe('QuizzService tests', () => {
         expect(questions).toEqual(expectedQuestions);
     });
 
-    it('should change category of card to 1 when failing question', () => {
+    it('should change category of card to 1 when failing question', async () => {
         const id = 'a420531b-6123-4b88-a642-2b593fbbaf31';
-        service.answerQuestion(id, false);
+        await service.answerQuestion(id, false);
         expect(cards.find(card => card.id === id).category).toBe(1);
     });
 
-    it('should change category of card to 2 when passing question', () => {
+    it('should change category of card to 2 when passing question',  async () => {
         const id = 'a420531b-6123-4b88-a642-2b593fbbaf24';
-        service.answerQuestion(id, true);
+        await service.answerQuestion(id, true);
         expect(cards.find(card => card.id === id).category).toBe(2);
+    });
+    it('should change category of card to 3 when passing question', async () => {
+        const id = 'a420531b-6123-4b88-a642-2b593fbbaf26';
+        await service.answerQuestion(id, true);
+        expect(cards.find(card => card.id === id).category).toBe(3);
     });
 })

@@ -25,9 +25,10 @@ export class QuizzService {
         return this.cardService.getCategories(categories);
     }
 
-    answerQuestion(id: string, correct: boolean) {
+    async answerQuestion(id: string, correct: boolean) {
         if(correct) {
-            return this.cardService.updateCategory(id, 2);
+            const oldCategory = await this.cardService.getCardCategory(id);
+            return this.cardService.updateCategory(id, oldCategory + 1);
         }
         this.cardService.updateCategory(id, 1);
     }

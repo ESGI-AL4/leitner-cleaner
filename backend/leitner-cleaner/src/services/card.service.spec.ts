@@ -243,4 +243,9 @@ describe('CardService tests', () => {
         console.log(result)
         expect((await service.getCategories(categories)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);
     });
+
+    it('getCardCategory should return the category of the card', async () => {
+        const id = 'a420531b-6123-4b88-a642-2b593fbbaf24';
+        expect(await service.getCardCategory(id)).toEqual(1);
+    });
 });

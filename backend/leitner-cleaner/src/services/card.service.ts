@@ -42,4 +42,8 @@ export class CardService {
         });
         return cards;
     }
+
+    async getCardCategory(id: string) {
+        return 1;
+    }
 }

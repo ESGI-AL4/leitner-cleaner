@@ -128,5 +128,12 @@ describe('QuizzService tests', () => {
         const questions = service.getQuizz(date);
         const expectedQuestions = getCardsOfCategories([1]);
         expect(questions).toEqual(expectedQuestions);
-    })
+    });
+
+    it('should return questions of category 1 and 2 for day 2', () => {
+        const date = new Date('2024-01-02');
+        const questions = service.getQuizz(date);
+        const expectedQuestions = getCardsOfCategories([1, 2]);
+        expect(questions).toEqual(expectedQuestions);
+    });
 })

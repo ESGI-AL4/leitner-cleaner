@@ -34,4 +34,17 @@ export class CardService {
     async updateCategory(id: string, category: number) {
         return this.cardRepository.update(id, {category});
     }
+
+    async getCategories(categories: number[]) {
+        const cards: Card[] = [];
+        categories.forEach(async category => {
+            cards.push(...(await this.getCategory(category)));
+        });
+        return cards;
+    }
+
+    async getCardCategory(id: string) {
+        const card = await this.cardRepository.findOne({where: {id}});
+        return card.category;
+    }
 }

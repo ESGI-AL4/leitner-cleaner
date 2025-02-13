@@ -44,6 +44,7 @@ export class CardService {
     }
 
     async getCardCategory(id: string) {
-        return 1;
+        const card = await this.cardRepository.findOne({where: {id}});
+        return card.category;
     }
 }

@@ -26,6 +26,9 @@ export class QuizzService {
     }
 
     answerQuestion(id: string, correct: boolean) {
+        if(correct) {
+            return this.cardService.updateCategory(id, 2);
+        }
         this.cardService.updateCategory(id, 1);
     }
 }

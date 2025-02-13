@@ -147,4 +147,9 @@ describe('QuizzService tests', () => {
         expect(cards.find(card => card.id === id).category).toBe(1);
     });
 
+    it('should change category of card to 2 when passing question', () => {
+        const id = 'a420531b-6123-4b88-a642-2b593fbbaf24';
+        service.answerQuestion(id, true);
+        expect(cards.find(card => card.id === id).category).toBe(2);
+    });
 })

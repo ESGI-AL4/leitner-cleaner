@@ -1,4 +1,4 @@
-describe('CardItem', () => {
+describe('CardRepository', () => {
     test('dummy test', () => {
         expect(true).toBe(true);
     });

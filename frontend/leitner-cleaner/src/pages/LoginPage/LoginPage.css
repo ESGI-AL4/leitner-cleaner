@@ -1,0 +1,8 @@
+.flex{
+    flex-direction: column-reverse;
+}
+
+.error-container {
+    min-height: 1.5em;
+    margin-bottom: 1rem;
+}

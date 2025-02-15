@@ -228,13 +228,13 @@ describe('CardService tests', () => {
         expect(updatedCard.category).toEqual(category);
     });
 
-    it('getCategories should return all cards of categories 1 and 2', async () => {
+    it('getCategories 1 & 2 should return all cards of categories 1 and 2', async () => {
         const categories = [1, 2];
         const result = getCardsOfCategories(categories).sort((card1, card2) => card1.id.localeCompare(card2.id));   
         expect((await service.getCategories(categories)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);
     });
 
-    it('getCategories should return all cards of categories 1 and 3', async () => {
+    it('getCategories 1 & 3 should return all cards of categories 1 and 3', async () => {
         const categories = [1, 3];
         const result = getCardsOfCategories(categories).sort((card1, card2) => card1.id.localeCompare(card2.id));   
         expect((await service.getCategories(categories)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);

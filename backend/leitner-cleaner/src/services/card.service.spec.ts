@@ -118,7 +118,7 @@ describe('CardService tests', () => {
     });
 
     it('should return all cards', () => {
-        expect(service.getAll()).toEqual(cards);
+        expect(service.getAllCards()).toEqual(cards);
     });
     
     it('should return all cards after adding a new card', () => {
@@ -130,7 +130,7 @@ describe('CardService tests', () => {
             tag: null
         };
         cards.push(newCard);
-        expect(service.getAll()).toEqual(cards);
+        expect(service.getAllCards()).toEqual(cards);
     });
 
     it('should return all cards of category 1', () => {
@@ -158,7 +158,7 @@ describe('CardService tests', () => {
             tag: null
         };
         const newId = uuidsForCreation[0];
-        const createdCard = await service.create(newCard);
+        const createdCard = await service.createCard(newCard);
         expect(createdCard).toEqual({...newCard, id: newId, category: 1});
     });
 
@@ -169,7 +169,7 @@ describe('CardService tests', () => {
             tag: 'test'
         };
         const newId = uuidsForCreation[0];
-        const createdCard = await service.create(newCard);
+        const createdCard = await service.createCard(newCard);
         expect(createdCard).toEqual({...newCard, id: newId, category: 1});
     });
 
@@ -180,7 +180,7 @@ describe('CardService tests', () => {
             tag: null
         };
         const oldLength = cards.length;
-        await service.create(newCard);
+        await service.createCard(newCard);
         expect(cards.length).toEqual(oldLength + 1);
     });
 
@@ -228,13 +228,13 @@ describe('CardService tests', () => {
         expect(updatedCard.category).toEqual(category);
     });
 
-    it('getCategories should return all cards of categories 1 and 2', async () => {
+    it('getCategories 1 & 2 should return all cards of categories 1 and 2', async () => {
         const categories = [1, 2];
         const result = getCardsOfCategories(categories).sort((card1, card2) => card1.id.localeCompare(card2.id));   
         expect((await service.getCategories(categories)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);
     });
 
-    it('getCategories should return all cards of categories 1 and 3', async () => {
+    it('getCategories 1 & 3 should return all cards of categories 1 and 3', async () => {
         const categories = [1, 3];
         const result = getCardsOfCategories(categories).sort((card1, card2) => card1.id.localeCompare(card2.id));   
         expect((await service.getCategories(categories)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);

@@ -10,7 +10,7 @@ export class CardService {
         @InjectRepository(Card)
         private cardRepository: Repository<Card>
     ) {}
-    getAll() {
+    getAllCards() {
         return this.cardRepository.find();
     }
 
@@ -22,7 +22,7 @@ export class CardService {
         return this.cardRepository.find({where: {tag}});
     }
 
-    async create(card: CardUserData) {
+    async createCard(card: CardUserData) {
         const newCard: CardRepoPayload = {...card, category: 1};
         return this.cardRepository.save(newCard);
     }

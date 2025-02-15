@@ -6,4 +6,9 @@ export class ConnectedUserController {
     constructor(
         private readonly cardService: CardService
     ) {}
+
+    @Get()
+    async getCards() {
+        return this.cardService.getAll();
+    }
 }

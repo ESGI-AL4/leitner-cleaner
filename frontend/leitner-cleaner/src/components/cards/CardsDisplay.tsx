@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
-import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
-import { InputText } from 'primereact/inputtext';
-import { CardType } from './CardItem'; // Votre interface pour les cartes
+import React, {useMemo, useState} from 'react';
+import {DataView, DataViewLayoutOptions} from 'primereact/dataview';
+import {InputText} from 'primereact/inputtext';
+import {CardType} from './CardItem'; // Votre interface pour les cartes
 import './CardsDisplay.css';
 import {classNames} from "primereact/utils";
+import {MultiSelect} from "primereact/multiselect";
+import {InputIcon} from "primereact/inputicon";
+import {IconField} from "primereact/iconfield";
 
 interface CardsDisplayProps {
     cards: CardType[];
 }
 
-const CardsDisplay: React.FC<CardsDisplayProps> = ({ cards }) => {
+const CardsDisplay: React.FC<CardsDisplayProps> = ({cards}) => {
     const [layout, setLayout] = useState<'list' | 'grid'>('grid');
-    const [globalFilter, setGlobalFilter] = useState('');
+    const [globalFilter, setGlobalFilter] = useState<string>('');
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+    // Calculer les catégories et tags uniques à partir des cartes
+    const uniqueCategories = useMemo(
+        () => Array.from(new Set(cards.map(card => card.category))),
+        [cards]
+    );
+    const uniqueTags = useMemo(
+        () => Array.from(new Set(cards.map(card => card.tag).filter(Boolean))),
+        [cards]
+    );
+
+    // Préparer les options pour les MultiSelect
+    const categoryOptions = uniqueCategories.map(cat => ({ label: cat, value: cat }));
+    const tagOptions = uniqueTags.map(tag => ({ label: tag, value: tag }));
 
 
     // Template pour l'affichage en grid (plusieurs cartes par ligne)
@@ -21,10 +40,18 @@ const CardsDisplay: React.FC<CardsDisplayProps> = ({ cards }) => {
                 <div className="card grid-card">
                     <h3>{card.question}</h3>
                     <p>{card.answer}</p>
-                    <p><strong>Catégorie:</strong> {card.category}</p>
-                    {card.tag && <p><strong>Tag:</strong> {card.tag}</p>}
+                    <p>
+                        <strong>Catégorie:</strong> {card.category}
+                        {card.tag && (
+                            <>
+                                {" "}
+                                <strong>Tag:</strong> {card.tag}
+                            </>
+                        )}
+                    </p>
                 </div>
             </div>
+
         );
     };
 
@@ -35,7 +62,7 @@ const CardsDisplay: React.FC<CardsDisplayProps> = ({ cards }) => {
                 <div
                     className={classNames(
                         'flex flex-column xl:flex-row xl:align-items-start p-4 gap-4',
-                        { 'border-top-1 surface-border': index !== 0 }
+                        {'border-top-1 surface-border': index !== 0}
                     )}
                 >
                     <h3>{card.question}</h3>
@@ -58,31 +85,53 @@ const CardsDisplay: React.FC<CardsDisplayProps> = ({ cards }) => {
         </div>;
     }
 
-    // Header incluant un champ de recherche et l'option de layout
+    // Header incluant le champ de recherche et les MultiSelect pour filtrer par catégories et par tags
     const header = () => {
         return (
             <div className="cards-display-header flex flex-row">
-                <div className="p-input-icon-left">
-                    <i className="pi pi-search" />
+                <IconField iconPosition="left">
+                    <InputIcon className="pi pi-search"/>
                     <InputText
                         type="search"
                         onInput={(e) => setGlobalFilter(e.currentTarget.value)}
                         placeholder="Rechercher..."
                     />
-                </div>
+                </IconField>
+                <MultiSelect
+                        value={selectedCategories}
+                        options={categoryOptions}
+                        onChange={(e) => setSelectedCategories(e.value)}
+                        optionLabel="label"
+                        display="chip"
+                        placeholder="Filtrer par catégorie"
+                        className="w-full md:w-20rem"
+                />
+                <MultiSelect
+                        value={selectedTags}
+                        options={tagOptions}
+                        onChange={(e) => setSelectedTags(e.value)}
+                        optionLabel="label"
+                        display="chip"
+                        placeholder="Filtrer par tag"
+                        className="w-full md:w-20rem"
+                />
                 <DataViewLayoutOptions layout={layout} onChange={(e) => setLayout(e.value as "list" | "grid")} />
             </div>
         );
     };
 
-    // Filtrer les cartes en fonction du champ de recherche (globalFilter)
+    // Filtrage des cartes en fonction du filtre global et des sélections MultiSelect
     const filteredCards = cards.filter(card => {
-        const filter = globalFilter.toLowerCase();
-        return (
-            card.question.toLowerCase().includes(filter) ||
-            card.answer.toLowerCase().includes(filter) ||
-            (card.tag && card.tag.toLowerCase().includes(filter))
-        );
+        const filterText = globalFilter.toLowerCase();
+        const matchesGlobal =
+            card.question.toLowerCase().includes(filterText) ||
+            card.answer.toLowerCase().includes(filterText) ||
+            (card.tag && card.tag.toLowerCase().includes(filterText));
+        const matchesCategory =
+            selectedCategories.length === 0 || selectedCategories.includes(card.category);
+        const matchesTag =
+            selectedTags.length === 0 || (card.tag && selectedTags.includes(card.tag));
+        return matchesGlobal && matchesCategory && matchesTag;
     });
 
     return (

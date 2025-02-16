@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from '../pages/LoginPage/LoginPage';
+import QuizPage from '../pages/QuizPage/QuizPage';
 /*
 import CreateCardPage from '../pages/CreateCardPage/CreateCardPage';
 import CardsPage from '../pages/CardsPage/CardsPage';
-import QuizPage from '../pages/QuizPage/QuizPage';
+
 */
 
 const AppRoutes: React.FC = () => {
@@ -17,8 +18,10 @@ const AppRoutes: React.FC = () => {
                 {/* autres routes
                 <Route path="/create-card" element={<CreateCardPage />} />
                 <Route path="/cards" element={<CardsPage />} />
+                
+                */
                 <Route path="/quiz" element={<QuizPage />} />
-                */}
+                }
 
                 {/* Redirection par défaut vers la page de connexion */}
                 <Route path="*" element={<Navigate to="/login" replace />} />

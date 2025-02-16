@@ -27,6 +27,10 @@ cd backend/leitner-cleaner
 npm install
 npm run test:cov
 ```
+Pour modifier l'url de l'api dans le front:
+```
+Changer l'url dans le fichier .env
+```
 
 Pour lancer le front:
 ```

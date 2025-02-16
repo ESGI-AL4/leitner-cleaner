@@ -1,12 +1,10 @@
-export default useCards;
-=======
 import { useState, useEffect } from 'react';
 import { Card } from '../domain/entities/Card';
 
 export const useCards = () => {
     const [cards, setCards] = useState<Card[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [error] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchCards = async () => {

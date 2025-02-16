@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../../components/layout/Header";
-import useCards from "../../hooks/useCards";
+import {useCards} from "../../hooks/useCards";
 import "./CardsPage.css";
 import CardsDisplay from "../../components/cards/CardsDisplay.tsx";
 

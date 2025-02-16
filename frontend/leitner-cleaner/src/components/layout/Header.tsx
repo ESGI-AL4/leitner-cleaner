@@ -4,20 +4,22 @@ import './Header.css';
 
 interface HeaderProps {
     onScheduleNotifications: () => void;
+    onAllCards: () => void;
     onStartQuiz: () => void;
     onAddCard: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
                                            onScheduleNotifications,
+                                           onAllCards,
                                            onStartQuiz,
                                            onAddCard,
                                        }) => {
     return (
         <header className="app-header">
-            <h1>Mes Cartes</h1>
             <ActionButtons
                 onScheduleNotifications={onScheduleNotifications}
+                onAllCards={onAllCards}
                 onStartQuiz={onStartQuiz}
                 onAddCard={onAddCard}
             />

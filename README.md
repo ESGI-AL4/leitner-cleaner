@@ -53,7 +53,7 @@ npm install
 npm run coverage
 ```
 
-Pour lancer les test end2end
+Pour lancer les test end2end (front and back must be up)
 ```
 cd frontend/playwright
 pip install pytest-playwright

@@ -1,9 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { CardService } from "./card.service";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Quizz } from "../entities";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class QuizzService {
-    constructor(private cardService: CardService) {}
+    constructor(
+        private cardService: CardService,
+        @InjectRepository(Quizz)
+        private quizzRepository: Repository<Quizz>
+    ) {}
 
     getQuizzCategories(date: Date) {
         //Difference in days between the date and the first day of the year
@@ -21,6 +28,9 @@ export class QuizzService {
     }
 
     getQuizz(date: Date) {
+        if(this.quizzRepository.find({where: {date}})) {
+            return [];
+        }
         const categories = this.getQuizzCategories(date);
         return this.cardService.getCategories(categories);
     }

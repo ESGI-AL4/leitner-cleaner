@@ -22,7 +22,7 @@ export class CardService {
         return this.cardRepository.find({where: {tag}});
     }
 
-    async createCard(card: CardUserData) {
+    async createCard(card: CardUserData): Promise<Card> {
         const newCard: CardRepoPayload = {...card, category: 1};
         return this.cardRepository.save(newCard);
     }
@@ -39,6 +39,14 @@ export class CardService {
         const cards: Card[] = [];
         categories.forEach(async category => {
             cards.push(...(await this.getCategory(category)));
+        });
+        return cards;
+    }
+
+    async getTags(tags: string[]) {
+        const cards: Card[] = [];
+        tags.forEach(async tag => {
+            cards.push(...(await this.getTag(tag)));
         });
         return cards;
     }

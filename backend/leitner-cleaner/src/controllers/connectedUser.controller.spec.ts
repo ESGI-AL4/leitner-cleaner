@@ -58,6 +58,8 @@ describe('ConnectedUserController tests', () => {
         }
     ]
 
+    const cardsWithTags = (tags: string[]) => cards.filter(card => tags.includes(card.tag));
+
     beforeEach(async () => {
         const module = await Test.createTestingModule({
             controllers: [
@@ -66,7 +68,7 @@ describe('ConnectedUserController tests', () => {
         }).useMocker(token => {
             if(token === CardService) {
                 return {
-                    getAll: jest.fn(() => cards)
+                    getAllCards: jest.fn(() => cards),
                 }
             }
         }).compile();
@@ -89,5 +91,9 @@ describe('ConnectedUserController tests', () => {
         cards.push(newCard);
         expect(await controller.getCards()).toEqual(cards);
     });
+
+    it('should return all cards with tag test2', async () => {
+        expect(await controller.getCards('test2')).toEqual(cardsWithTags(['test2']));
+    })
 
 });

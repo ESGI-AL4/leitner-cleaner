@@ -29,12 +29,13 @@ export class QuizzService {
     return categories;
   }
 
-  getQuizz(date: Date) {
-    if (this.quizzRepository.find({ where: { date } })) {
-      return [];
-    }
-    const categories = this.getQuizzCategories(date);
-    return this.cardService.getCategories(categories);
+    async getQuizz(date: Date) {
+        if((await this.quizzRepository.find({where: {date}})).length > 0) {
+            return [];
+        }
+        await this.quizzRepository.save({date});
+        const categories = this.getQuizzCategories(date);
+        return this.cardService.getCategories(categories);
   }
 
   async answerQuestion(id: string, correct: boolean) {

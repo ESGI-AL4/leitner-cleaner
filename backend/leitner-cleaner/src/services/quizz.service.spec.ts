@@ -76,10 +76,9 @@ describe('QuizzService tests', () => {
                     provide: getRepositoryToken(Quizz),
                     useValue: {
                         find: jest.fn((query) =>{
-                            return query.where.date.getTime() === new Date('2024-01-03').getTime() ? true : false;
-                        }
-
-                        ),
+                            return query.where.date.getTime() === new Date('2024-01-03').getTime() ? [''] : [];
+                        }),
+                        save: jest.fn(() => true)
                     }
                 }
             ]
@@ -140,24 +139,24 @@ describe('QuizzService tests', () => {
         expect(categories).toEqual([1, 2, 3, 4, 5, 6, 7]);
     });
 
-    it('should return questions of category 1 for day 1', () => {
+    it('should return questions of category 1 for day 1', async () => {
         const date = new Date('2024-01-01');
-        const questions = service.getQuizz(date);
+        const questions = await service.getQuizz(date);
         const expectedQuestions = getCardsOfCategories([1]);
         expect(questions).toEqual(expectedQuestions);
     });
 
-    it('should return questions of category 1 and 2 for day 2', () => {
+    it('should return questions of category 1 and 2 for day 2', async () => {
         const date = new Date('2024-01-02');
-        const questions = service.getQuizz(date);
+        const questions = await service.getQuizz(date);
         const expectedQuestions = getCardsOfCategories([1, 2]);
         expect(questions).toEqual(expectedQuestions);
     });
 
-    it('should return an empty array when quizz already exists', () => {
+    it('should return an empty array when quizz already exists', async () => {
         const date = new Date('2024-01-03');
         service.getQuizz(date);
-        expect(service.getQuizz(date)).toEqual([]);
+        expect(await service.getQuizz(date)).toEqual([]);
     });
     
     it('should change category of card to 1 when failing question', async () => {

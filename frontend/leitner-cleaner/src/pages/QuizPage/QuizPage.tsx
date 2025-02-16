@@ -19,7 +19,7 @@ const QuizPage: React.FC = () => {
         fetchCard,
         currentQuestionNumber,
         totalCards 
-    } = useQuiz();
+    } = useQuiz('2024-01-01');
 
     const validationOptions = [
         { label: 'Correct', value: true, icon: 'pi pi-check' },
@@ -32,9 +32,31 @@ const QuizPage: React.FC = () => {
         }
     };
 
+    const evaluateAnswer = async (success: boolean) => {
+        if (!currentCard) return;
+
+        try {
+            const response = await fetch(`http://localhost:3000/cards/${currentCard.id}/answer`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ isValid: success }),
+            });
+            console.log('response', response);
+
+            if (!response.ok) {
+                throw new Error('Failed to evaluate card');
+            }
+        } catch (error) {
+            console.error('Error evaluating card:', error);
+        }
+    };
+
     const handleValidation = (e: SelectButtonChangeEvent) => {
         console.log(`Answer marked as ${e.value ? 'correct' : 'incorrect'}`);
         setAnswer('');
+        evaluateAnswer(true);
         setIsSubmitted(false);
         fetchCard(true);
     };

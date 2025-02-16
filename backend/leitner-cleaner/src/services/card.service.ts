@@ -43,6 +43,32 @@ export class CardService {
         return cards;
     }
 
+    async getTags(tags: string[]) {
+        return [
+                    {
+                        "answer": "Rome",
+                        "category": 3,
+                        "id": "a420531b-6123-4b88-a642-2b593fbbaf27",
+                        "question": "What is the capital of Italy?",
+                        "tag": "test",
+                    },
+                    {
+                        "answer": "Tokyo",
+                        "category": 2,
+                        "id": "a420531b-6123-4b88-a642-2b593fbbaf30",
+                        "question": "What is the capital of Japan?",
+                        "tag": "test2",
+                    },
+                    {
+                        "answer": "London",
+                        "category": 1,
+                        "id": "a420531b-6123-4b88-a642-2b593fbbaf33",
+                        "question": "What is the capital of the United Kingdom?",
+                        "tag": "test",
+                    },
+                ];
+    }
+
     async getCardCategory(id: string) {
         const card = await this.cardRepository.findOne({where: {id}});
         return card.category;

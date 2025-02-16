@@ -3,6 +3,7 @@ import { Card } from 'primereact/card';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { FloatLabel } from 'primereact/floatlabel';
+import {createCard} from "../../infrastructure/api/CardRepository.ts";
 
 
 const CreateCardPage: React.FC = () => {
@@ -12,34 +13,38 @@ const CreateCardPage: React.FC = () => {
     const [error, setError] = useState<string>('');
     const [success, setSuccess] = useState<string>('');
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!question.trim() || !answer.trim()) {
-            setError("La question et la réponse sont requises.");
+            setError("La question, la réponse et le tag sont requises.");
             setSuccess('');
             return;
         }
+
         setError('');
-        // Création de la carte avec la catégorie par défaut "1"
         const newCard = {
-            id: Date.now().toString(),
-            category: "1",
             question: question.trim(),
             answer: answer.trim(),
             tag: tag.trim() || undefined,
         };
 
-        console.log("Carte créée:", newCard);
-        setSuccess("Carte créée avec succès !");
-        // Réinitialiser le formulaire
-        setQuestion('');
-        setAnswer('');
-        setTag('');
+        try {
+            const createdCard = await createCard(newCard);
+            console.log("Carte créée:", createdCard);
+            setSuccess("Carte créée avec succès !");
+            setQuestion('');
+            setAnswer('');
+            setTag('');
+        } catch (err) {
+            console.error(err);
+            setError("Erreur lors de la création de la carte.");
+            setSuccess('');
+        }
     };
 
     return (
         <div className="create-card-page">
             <Card title="Créer une nouvelle fiche" className="create-card">
-                <div className="p-field">
+                <div className="p-field card flex justify-content-center flex-row">
                     <FloatLabel>
                         <InputText
                             id="question"
@@ -49,7 +54,7 @@ const CreateCardPage: React.FC = () => {
                         <label htmlFor="question">Question</label>
                     </FloatLabel>
                 </div>
-                <div className="p-field">
+                <div className="p-field card flex justify-content-center flex-row">
                     <FloatLabel>
                         <InputText
                             id="answer"
@@ -59,19 +64,21 @@ const CreateCardPage: React.FC = () => {
                         <label htmlFor="answer">Réponse</label>
                     </FloatLabel>
                 </div>
-                <div className="p-field">
+                <div className="p-field card flex justify-content-center flex-row">
                     <FloatLabel>
                         <InputText
                             id="tag"
                             value={tag}
                             onChange={(e) => setTag(e.target.value)}
                         />
-                        <label htmlFor="tag">Tag (optionnel)</label>
+                        <label htmlFor="tag">Tag</label>
                     </FloatLabel>
                 </div>
-                {error && <small className="p-error">{error}</small>}
-                {success && <small className="p-success">{success}</small>}
-                <Button label="Créer la fiche" icon="pi pi-plus" onClick={handleSubmit} className="p-mt-2" />
+                <div className="p-field flex flex-column align-items-center">
+                    {error && <small className="p-error">{error}</small>}
+                    {success && <small className="p-success">{success}</small>}
+                    <Button label="Créer la fiche" icon="pi pi-plus" onClick={handleSubmit} className="p-mt-2" />
+                </div>
             </Card>
         </div>
     );

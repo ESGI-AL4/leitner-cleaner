@@ -116,7 +116,7 @@ describe('ConnectedUserController tests', () => {
     })
 
     it('should return all cards with tag test and test2', async () => {
-        expect(await controller.getCards('test,test2')).toEqual(cardsWithTags(['test', 'test2']).map(mapCardCategory));
+        expect(await controller.getCards(['test','test2'])).toEqual(cardsWithTags(['test', 'test2']).map(mapCardCategory));
     })
 
     it('should create a new card', async () => {

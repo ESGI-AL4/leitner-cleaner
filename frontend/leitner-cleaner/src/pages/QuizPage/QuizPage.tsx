@@ -86,7 +86,7 @@ const QuizPage: React.FC = () => {
                     <Button 
                         label="Retry" 
                         icon="pi pi-refresh" 
-                        onClick={fetchCard}
+                        onClick={fetchCard as any}
                         className="p-mt-3"
                     />
                 </Card>
@@ -117,7 +117,7 @@ const QuizPage: React.FC = () => {
                     <p data-testid="question-text">{currentCard.question}</p>
                 </div>
                 
-                <div className="card justify-content-center p-field">
+                <div className="card flex justify-content-center flex-row p-field">
                     <FloatLabel>
                         <InputText 
                             id="answer"

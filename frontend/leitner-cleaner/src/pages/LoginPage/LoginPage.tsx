@@ -7,6 +7,7 @@ import { Button } from 'primereact/button';
 import { AuthContext } from '../../contexts/AuthContext.ts';
 import './LoginPage.css';
 import { FloatLabel } from "primereact/floatlabel";
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginPage: React.FC = () => {
@@ -14,6 +15,7 @@ const LoginPage: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate(); // Initialisez le hook
 
     const handleLogin = () => {
         if (!username.trim() || !password.trim()) {
@@ -23,6 +25,7 @@ const LoginPage: React.FC = () => {
         setError('');
         // Appel de la fonction fake de login depuis le contexte
         login(username);
+        navigate('/cards');
     };
 
     return (

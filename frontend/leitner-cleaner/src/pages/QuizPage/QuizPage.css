@@ -39,4 +39,10 @@
     margin: 1rem 0;
     font-style: italic;
     color: #666;
-} 
+}
+
+.question-tracker {
+    margin-bottom: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+}

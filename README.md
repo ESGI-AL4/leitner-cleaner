@@ -28,3 +28,24 @@ cd backend/leitner-cleaner
 npm install
 npm run test:cov
 ```
+
+Pour lancer le front:
+```
+cd frontend/leitner-cleaner
+npm install
+npm run dev
+```
+
+Pour lancer les tests dans le front:
+```
+cd frontend/leitner-cleaner
+npm install
+npm run test
+```
+
+Pour lancer la couverture de tests dans le front:
+```
+cd frontend/leitner-cleaner
+npm install
+npm run coverage
+```

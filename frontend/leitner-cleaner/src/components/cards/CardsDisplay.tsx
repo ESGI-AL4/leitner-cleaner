@@ -17,7 +17,7 @@ const CardsDisplay: React.FC<CardsDisplayProps> = ({ cards }) => {
     // Template pour l'affichage en grid (plusieurs cartes par ligne)
     const gridItem = (card: CardType) => {
         return (
-            <div className="p-col-12 p-sm-6 p-lg-4" key={card.id}>
+            <div className="col-4 sm-6 lg-4" key={card.id}>
                 <div className="card grid-card">
                     <h3>{card.question}</h3>
                     <p>{card.answer}</p>
@@ -47,14 +47,13 @@ const CardsDisplay: React.FC<CardsDisplayProps> = ({ cards }) => {
         );
     };
 
-    // Choix du template selon le layout
     const itemTemplate = (card: CardType, layout: "list" | "grid", index: number) => {
         if (!card) return null;
         return layout === 'list' ? listItem(card, index) : gridItem(card);
     };
 
     const listTemplate = (cards: CardType[], layout: "list" | "grid") => {
-        return <div className="grid grid-nogutter">
+        return <div className={layout}>
             {cards.map((card: CardType, index: number) => itemTemplate(card, layout, index))}
         </div>;
     }
@@ -62,7 +61,7 @@ const CardsDisplay: React.FC<CardsDisplayProps> = ({ cards }) => {
     // Header incluant un champ de recherche et l'option de layout
     const header = () => {
         return (
-            <div className="cards-display-header flex justify-content-between align-items-center">
+            <div className="cards-display-header flex flex-row">
                 <div className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText

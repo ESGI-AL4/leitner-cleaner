@@ -69,6 +69,7 @@ describe('ConnectedUserController tests', () => {
             if(token === CardService) {
                 return {
                     getAllCards: jest.fn(() => cards),
+                    getTags: jest.fn((tags: string[]) => cards.filter(card => tags.includes(card.tag)))
                 }
             }
         }).compile();
@@ -94,6 +95,10 @@ describe('ConnectedUserController tests', () => {
 
     it('should return all cards with tag test2', async () => {
         expect(await controller.getCards('test2')).toEqual(cardsWithTags(['test2']));
+    })
+
+    it('should return all cards with tag test and test2', async () => {
+        expect(await controller.getCards('test,test2')).toEqual(cardsWithTags(['test', 'test2']));
     })
 
 });

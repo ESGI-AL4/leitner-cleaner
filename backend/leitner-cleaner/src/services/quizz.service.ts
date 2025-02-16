@@ -27,10 +27,11 @@ export class QuizzService {
         return categories;
     }
 
-    getQuizz(date: Date) {
-        if(this.quizzRepository.find({where: {date}})) {
+    async getQuizz(date: Date) {
+        if((await this.quizzRepository.find({where: {date}})).length > 0) {
             return [];
         }
+        await this.quizzRepository.save({date});
         const categories = this.getQuizzCategories(date);
         return this.cardService.getCategories(categories);
     }

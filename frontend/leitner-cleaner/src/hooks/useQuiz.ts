@@ -61,13 +61,14 @@ export const useQuiz = (date: string): UseQuizReturn => {
         if (!currentCard) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/cards/${currentCard.id}/evaluate`, {
+            const response = await fetch(`http://localhost:3000/cards/${currentCard.id}/answer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ success }),
+                body: JSON.stringify({ isValid: success }),
             });
+            console.log('response', response);
 
             if (!response.ok) {
                 throw new Error('Failed to evaluate card');
@@ -77,7 +78,6 @@ export const useQuiz = (date: string): UseQuizReturn => {
                 setCorrectAnswers(prev => prev + 1);
             }
 
-            // Move to next card
             if (currentIndex < cards.length - 1) {
                 setCurrentIndex(prev => prev + 1);
                 setIsAnswerVisible(false);

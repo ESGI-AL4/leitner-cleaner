@@ -62,13 +62,14 @@ const cards = [
         category: 2,
         question: 'What is the capital of Japan?',
         answer: 'Tokyo',
-        tag: 'test'
+        tag: 'test2'
     }
 ];
 
 const getCardsOfCategory = (category: number) => cards.filter(card => card.category === category);
 const getCardsOfCategories = (categories: number[]) => cards.filter(card => categories.includes(card.category));
 const getCardsWithTag = (tag: string) => cards.filter(card => card.tag === tag);
+const getCardsWithTags = (tags: string[]) => cards.filter(card => tags.includes(card.tag));
 
 describe('CardService tests', () => {
     let service: CardService;
@@ -248,5 +249,17 @@ describe('CardService tests', () => {
     it('getCardCategory should return the category of the card with another value', async () => {
         const id = 'a420531b-6123-4b88-a642-2b593fbbaf26';
         expect(await service.getCardCategory(id)).toEqual(2);
+    });
+
+    it('getTags should return all cards with tags "test" and "test2"', async () => {
+        const tags = ['test', 'test2'];
+        const result = getCardsWithTags(tags).sort((card1, card2) => card1.id.localeCompare(card2.id));
+        expect((await service.getTags(tags)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);
+    });
+
+    it('getTags should return all cards with tags "test" and "test3"', async () => {
+        const tags = ['test', 'test3'];
+        const result = getCardsWithTags(tags).sort((card1, card2) => card1.id.localeCompare(card2.id));
+        expect((await service.getTags(tags)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);
     });
 });

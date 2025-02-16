@@ -1,9 +1,17 @@
 import { Test } from '@nestjs/testing';
 import { ConnectedUserController } from './connectedUser.controller';
-import { CardService } from '../services';
+import { CardService, QuizzService } from '../services';
+import { CardUserData } from 'types';
+import { Card } from '../entities';
 
 describe('ConnectedUserController tests', () => {
 
+
+    const CATEGORIES = ['FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH', 'SIXTH', 'SEVENTH', 'DONE'];
+    
+    const mapCardCategory = (card:Card) => {
+        return {...card, category: CATEGORIES[card.category - 1]};
+    }
     
     let controller: ConnectedUserController;
     const cards = [
@@ -58,6 +66,8 @@ describe('ConnectedUserController tests', () => {
         }
     ]
 
+    const cardsWithTags = (tags: string[]) => cards.filter(card => tags.includes(card.tag));
+
     beforeEach(async () => {
         const module = await Test.createTestingModule({
             controllers: [
@@ -66,7 +76,18 @@ describe('ConnectedUserController tests', () => {
         }).useMocker(token => {
             if(token === CardService) {
                 return {
-                    getAll: jest.fn(() => cards)
+                    getAllCards: jest.fn(() => cards),
+                    getTags: jest.fn((tags: string[]) => cards.filter(card => tags.includes(card.tag))),
+                    createCard: jest.fn((cardData) => {
+                        const newCard = {id: 'a420531b-6123-4b88-a642-2b593fbbaf31', ...cardData, category: 1};
+                        cards.push(newCard);
+                        return newCard;
+                })
+                }
+            }
+            if(token === QuizzService) {
+                return {
+                    getQuizz: jest.fn(() => cards)
                 }
             }
         }).compile();
@@ -75,7 +96,7 @@ describe('ConnectedUserController tests', () => {
     })
 
     it('should return all cards', async () => {
-        expect(await controller.getCards()).toEqual(cards);
+        expect(await controller.getCards()).toEqual(cards.map(mapCardCategory));
     });
 
     it('should return all cards after adding one', async () => {
@@ -87,7 +108,39 @@ describe('ConnectedUserController tests', () => {
             tag: null
         }
         cards.push(newCard);
-        expect(await controller.getCards()).toEqual(cards);
+        expect(await controller.getCards()).toEqual(cards.map(mapCardCategory));
+    });
+
+    it('should return all cards with tag test2', async () => {
+        expect(await controller.getCards('test2')).toEqual(cardsWithTags(['test2']).map(mapCardCategory));
+    })
+
+    it('should return all cards with tag test and test2', async () => {
+        expect(await controller.getCards('test,test2')).toEqual(cardsWithTags(['test', 'test2']).map(mapCardCategory));
+    })
+
+    it('should create a new card', async () => {
+        const newCard:CardUserData = {
+            question: 'What is the capital of Canada?',
+            answer: 'Ottawa',
+            tag: null
+        }
+        const oldLength = cards.length;
+        const createdCard = await controller.createCard(newCard);
+        expect(createdCard).toEqual({
+            id: expect.any(String),
+            ...newCard,
+            category: 'FIRST'
+        });
+        expect(cards).toHaveLength(oldLength + 1);
+    });
+
+    it('should return all cards for the quizz', async () => {
+        expect(await controller.getQuizz()).toEqual(cards.map(mapCardCategory));
+    });
+
+    it('should return all cards for the quizz on a specific date', async () => {
+        expect(await controller.getQuizz('2025-01-01')).toEqual(cards.map(mapCardCategory));
     });
 
 });

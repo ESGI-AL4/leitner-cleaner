@@ -12,7 +12,14 @@ import './QuizPage.css';
 const QuizPage: React.FC = () => {
     const [answer, setAnswer] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const { currentCard, loading, error, fetchCard } = useQuiz();
+    const { 
+        currentCard, 
+        loading, 
+        error, 
+        fetchCard,
+        currentQuestionNumber,
+        totalCards 
+    } = useQuiz();
 
     const validationOptions = [
         { label: 'Correct', value: true, icon: 'pi pi-check' },
@@ -29,8 +36,7 @@ const QuizPage: React.FC = () => {
         console.log(`Answer marked as ${e.value ? 'correct' : 'incorrect'}`);
         setAnswer('');
         setIsSubmitted(false);
-        // Fetch next card
-        fetchCard();
+        fetchCard(true);
     };
 
     if (loading) {
@@ -72,7 +78,7 @@ const QuizPage: React.FC = () => {
                 <Card className="quiz-card">
                     <Message 
                         severity="info" 
-                        text="No questions available"
+                        text="No questions available, try again tomorrow!"
                     />
                 </Card>
             </div>
@@ -82,6 +88,9 @@ const QuizPage: React.FC = () => {
     return (
         <div className="quiz-page">
             <Card title="Quiz" className="quiz-card">
+                <div className="question-tracker">
+                    <span>Question {currentQuestionNumber} of {totalCards}</span>
+                </div>
                 <div className="question-container">
                     <p data-testid="question-text">{currentCard.question}</p>
                 </div>

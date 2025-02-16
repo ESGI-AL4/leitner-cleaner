@@ -1,0 +1,25 @@
+.cards-display {
+    width: 100%;
+    padding: 1rem;
+}
+
+.cards-display-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.grid-card {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+}
+
+.list-card {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+}

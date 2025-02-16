@@ -6,3 +6,10 @@
     min-height: 1.5em;
     margin-bottom: 1rem;
 }
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

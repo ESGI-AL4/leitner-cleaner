@@ -23,6 +23,7 @@ export const useQuiz = (date: string): UseQuizReturn => {
     const [isQuizComplete, setIsQuizComplete] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const backUrl = import.meta.env.VITE_BACK_URL;
 
     const fetchCard = async (moveToNext: boolean = false) => {
         if (moveToNext) {
@@ -34,7 +35,7 @@ export const useQuiz = (date: string): UseQuizReturn => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`http://localhost:3000/cards/quizz?date=${date}`);
+            const response = await fetch(`${backUrl}/cards/quizz?date=${date}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch cards');
             }
@@ -61,7 +62,7 @@ export const useQuiz = (date: string): UseQuizReturn => {
         if (!currentCard) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/cards/${currentCard.id}/answer`, {
+            const response = await fetch(`${backUrl}/cards/${currentCard.id}/answer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

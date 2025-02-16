@@ -21,6 +21,8 @@ const QuizPage: React.FC = () => {
         totalCards 
     } = useQuiz('2024-01-01');
 
+    const backUrl = import.meta.env.VITE_BACK_URL;
+
     const validationOptions = [
         { label: 'Correct', value: true, icon: 'pi pi-check' },
         { label: 'Incorrect', value: false, icon: 'pi pi-times' }
@@ -36,7 +38,7 @@ const QuizPage: React.FC = () => {
         if (!currentCard) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/cards/${currentCard.id}/answer`, {
+            const response = await fetch(`${backUrl}/cards/${currentCard.id}/answer`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

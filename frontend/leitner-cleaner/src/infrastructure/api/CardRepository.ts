@@ -9,7 +9,8 @@ interface CreateCardRequest {
 }
 
 export const createCard = async (card: CreateCardRequest): Promise<CardType> => {
-    const response = await axios.post<CardType>('http://localhost:3000/cards', card, {
+    const backUrl = import.meta.env.VITE_BACK_URL;
+    const response = await axios.post<CardType>(`${backUrl}/cards`, card, {
         headers: { 'Content-Type': 'application/json' }
     });
     return response.data;

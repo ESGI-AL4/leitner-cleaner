@@ -26,9 +26,11 @@ describe('createCard', () => {
 
         const result = await createCard(cardRequest);
 
+        const backUrl = import.meta.env.VITE_BACK_URL;
+
         // Vérifier que axios.post a été appelé correctement
         expect(axios.post).toHaveBeenCalledWith(
-            'http://localhost:3000/cards',
+            `${backUrl}/cards`,
             cardRequest,
             { headers: { 'Content-Type': 'application/json' } }
         );

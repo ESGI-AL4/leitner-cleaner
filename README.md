@@ -57,5 +57,6 @@ Pour lancer les test end2end
 ```
 cd frontend/playwright
 pip install pytest-playwright
+playwright install
 pytest
 ```

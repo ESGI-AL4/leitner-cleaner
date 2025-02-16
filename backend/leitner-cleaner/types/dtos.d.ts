@@ -11,3 +11,7 @@ export type CardDTO = {
     answer: string;
     tag: string;
 }
+
+export type AnswerDTO = {
+    answer: boolean;
+}

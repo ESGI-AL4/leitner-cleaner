@@ -1,7 +1,7 @@
-import {Controller, Get, Post, Query, Body} from '@nestjs/common';
+import {Controller, Get, Post, Query, Body, Patch, Param, HttpCode} from '@nestjs/common';
 import { CardService, QuizzService } from '../services';
 import { Card } from '../entities';
-import {CardUserData, CardDTO } from 'types';
+import {CardUserData, CardDTO, AnswerDTO } from 'types';
 
 const CATEGORIES = ['FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH', 'SIXTH', 'SEVENTH', 'DONE'];
 
@@ -27,6 +27,7 @@ export class ConnectedUserController {
     }
 
     @Post()
+    @HttpCode(201)
     async createCard(@Body() cardData: CardUserData): Promise<CardDTO> {
         const card = await this.cardService.createCard(cardData);
         return mapCardCategory(card);
@@ -45,4 +46,9 @@ export class ConnectedUserController {
         return quizz.map(mapCardCategory);
     }
 
+    @Patch('/:id/answer')
+    @HttpCode(204)
+    async answerCard(@Param('id') id: string, @Body() answer: AnswerDTO) {
+        await this.quizzService.answerQuestion(id, answer.answer);
+    }
 }

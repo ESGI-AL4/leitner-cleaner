@@ -1,4 +1,3 @@
-// src/components/Layout.tsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
@@ -12,7 +11,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         const time = window.prompt("Veuillez saisir l'heure (HH:MM) pour la notification du quiz du jour:");
         if (time) {
             console.log(`Notification programmée à ${time}`);
-            // Ici, vous pouvez appeler une API ou programmer un timer
         }
     };
 

@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {DataView, DataViewLayoutOptions} from 'primereact/dataview';
 import {InputText} from 'primereact/inputtext';
-import {CardType} from './CardItem'; // Votre interface pour les cartes
+import {CardType} from './CardItem';
 import './CardsDisplay.css';
 import {classNames} from "primereact/utils";
 import {MultiSelect} from "primereact/multiselect";

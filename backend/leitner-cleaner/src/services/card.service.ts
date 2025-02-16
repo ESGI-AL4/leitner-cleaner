@@ -22,7 +22,7 @@ export class CardService {
         return this.cardRepository.find({where: {tag}});
     }
 
-    async createCard(card: CardUserData) {
+    async createCard(card: CardUserData): Promise<Card> {
         const newCard: CardRepoPayload = {...card, category: 1};
         return this.cardRepository.save(newCard);
     }

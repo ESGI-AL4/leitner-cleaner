@@ -1,8 +1,13 @@
-import {Controller, Get, HttpException, HttpStatus, Post, Query, Body} from '@nestjs/common';
+import {Controller, Get, Post, Query, Body} from '@nestjs/common';
 import { CardService } from '../services';
 import { Card } from '../entities';
-import { CardRepoPayload, CardUserData } from 'types';
+import {CardUserData, CardDTO } from 'types';
 
+const CATEGORIES = ['FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH', 'SIXTH', 'SEVENTH', 'DONE'];
+
+const mapCardCategory = (card:Card) => {
+    return {...card, category: CATEGORIES[card.category - 1]};
+}
 @Controller('cards')
 export class ConnectedUserController {
     constructor(
@@ -10,16 +15,20 @@ export class ConnectedUserController {
     ) {}
 
     @Get()
-    async getCards(@Query('tags') tags?:string): Promise<Card[]> {
+    async getCards(@Query('tags') tags?:string): Promise<CardDTO[]> {
+        let cards: Card[];
         if(tags) {
-            return this.cardService.getTags(tags.split(','));
+            cards = await this.cardService.getTags(tags.split(','));
+        } else {
+            cards = await this.cardService.getAllCards();
         }
-        return this.cardService.getAllCards();
+        return cards.map(mapCardCategory);
     }
 
     @Post()
-    async createCard(@Body() cardData: CardUserData): Promise<Card> {
-        return this.cardService.createCard(cardData);
+    async createCard(@Body() cardData: CardUserData): Promise<CardDTO> {
+        const card = await this.cardService.createCard(cardData);
+        return mapCardCategory(card);
     }
 
 }

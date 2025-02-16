@@ -2,9 +2,16 @@ import { Test } from '@nestjs/testing';
 import { ConnectedUserController } from './connectedUser.controller';
 import { CardService } from '../services';
 import { CardUserData } from 'types';
+import { Card } from '../entities';
 
 describe('ConnectedUserController tests', () => {
 
+
+    const CATEGORIES = ['FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH', 'SIXTH', 'SEVENTH', 'DONE'];
+    
+    const mapCardCategory = (card:Card) => {
+        return {...card, category: CATEGORIES[card.category - 1]};
+    }
     
     let controller: ConnectedUserController;
     const cards = [
@@ -84,7 +91,7 @@ describe('ConnectedUserController tests', () => {
     })
 
     it('should return all cards', async () => {
-        expect(await controller.getCards()).toEqual(cards);
+        expect(await controller.getCards()).toEqual(cards.map(mapCardCategory));
     });
 
     it('should return all cards after adding one', async () => {
@@ -96,15 +103,15 @@ describe('ConnectedUserController tests', () => {
             tag: null
         }
         cards.push(newCard);
-        expect(await controller.getCards()).toEqual(cards);
+        expect(await controller.getCards()).toEqual(cards.map(mapCardCategory));
     });
 
     it('should return all cards with tag test2', async () => {
-        expect(await controller.getCards('test2')).toEqual(cardsWithTags(['test2']));
+        expect(await controller.getCards('test2')).toEqual(cardsWithTags(['test2']).map(mapCardCategory));
     })
 
     it('should return all cards with tag test and test2', async () => {
-        expect(await controller.getCards('test,test2')).toEqual(cardsWithTags(['test', 'test2']));
+        expect(await controller.getCards('test,test2')).toEqual(cardsWithTags(['test', 'test2']).map(mapCardCategory));
     })
 
     it('should create a new card', async () => {
@@ -118,7 +125,7 @@ describe('ConnectedUserController tests', () => {
         expect(createdCard).toEqual({
             id: expect.any(String),
             ...newCard,
-            category: 1
+            category: 'FIRST'
         });
         expect(cards).toHaveLength(oldLength + 1);
     });

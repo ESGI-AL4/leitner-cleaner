@@ -1,0 +1,48 @@
+.quiz-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.quiz-card {
+    min-width: 400px;
+}
+
+.question-container {
+    margin-bottom: 2rem;
+}
+
+.validation-container {
+    margin-top: 2rem;
+}
+
+.validation-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.error-message {
+    margin-bottom: 1rem;
+}
+
+.correct-answer {
+    margin: 1rem 0;
+    font-style: italic;
+    color: #666;
+}
+
+.question-tracker {
+    margin-bottom: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+}

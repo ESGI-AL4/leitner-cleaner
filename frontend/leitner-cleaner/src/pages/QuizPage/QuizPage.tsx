@@ -56,7 +56,7 @@ const QuizPage: React.FC = () => {
     const handleValidation = (e: SelectButtonChangeEvent) => {
         console.log(`Answer marked as ${e.value ? 'correct' : 'incorrect'}`);
         setAnswer('');
-        evaluateAnswer(true);
+        evaluateAnswer(e.value as boolean);
         setIsSubmitted(false);
         fetchCard(true);
     };

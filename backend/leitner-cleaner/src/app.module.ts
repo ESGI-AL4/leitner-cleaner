@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConnectedUserController } from './controllers';
 import { CardService, QuizzService } from './services';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Card } from './entities';
+import { Card, Quizz } from './entities';
 
 @Module({
   imports: [
@@ -13,6 +13,7 @@ import { Card } from './entities';
       synchronize: true,
     }),
     TypeOrmModule.forFeature([Card]),
+    TypeOrmModule.forFeature([Quizz]),
   ],
   controllers: [ConnectedUserController],
   providers: [CardService, QuizzService],

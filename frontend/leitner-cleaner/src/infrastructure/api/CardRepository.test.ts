@@ -28,7 +28,7 @@ describe('createCard', () => {
 
         // Vérifier que axios.post a été appelé correctement
         expect(axios.post).toHaveBeenCalledWith(
-            'http://localhost:8080/cards',
+            'http://localhost:3000/cards',
             cardRequest,
             { headers: { 'Content-Type': 'application/json' } }
         );

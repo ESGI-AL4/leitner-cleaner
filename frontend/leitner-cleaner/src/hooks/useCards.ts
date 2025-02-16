@@ -15,9 +15,6 @@ export const useCards = () => {
                         'Content-Type': 'application/json'
                     }
                 });
-                if (response.status === 200) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
                 const data = await response.json();
                 setCards(data);
             } catch (err) {

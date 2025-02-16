@@ -9,7 +9,7 @@ interface CreateCardRequest {
 }
 
 export const createCard = async (card: CreateCardRequest): Promise<CardType> => {
-    const response = await axios.post<CardType>('http://localhost:8080/cards', card, {
+    const response = await axios.post<CardType>('http://localhost:3000/cards', card, {
         headers: { 'Content-Type': 'application/json' }
     });
     return response.data;

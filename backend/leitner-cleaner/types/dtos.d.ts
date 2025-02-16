@@ -13,5 +13,5 @@ export type CardDTO = {
 }
 
 export type AnswerDTO = {
-    answer: boolean;
+    isValid: boolean;
 }

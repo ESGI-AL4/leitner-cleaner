@@ -53,6 +53,6 @@ export class ConnectedUserController {
     @Patch('/:id/answer')
     @HttpCode(204)
     async answerCard(@Param('id') id: string, @Body() answer: AnswerDTO) {
-        await this.quizzService.answerQuestion(id, answer.answer);
+        await this.quizzService.answerQuestion(id, answer.isValid);
     }
 }

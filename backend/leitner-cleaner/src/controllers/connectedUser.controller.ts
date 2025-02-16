@@ -16,10 +16,14 @@ export class ConnectedUserController {
     ) {}
 
     @Get()
-    async getCards(@Query('tags') tags?:string): Promise<CardDTO[]> {
+    async getCards(@Query('tags') tags?:string | string[]): Promise<CardDTO[]> {
+        console.log(tags);
         let cards: Card[];
         if(tags) {
-            cards = await this.cardService.getTags(tags.split(','));
+            if(typeof tags === 'string') {
+                tags = [tags];
+            }
+            cards = await this.cardService.getTags(tags);
         } else {
             cards = await this.cardService.getAllCards();
         }

@@ -1,5 +1,5 @@
 import {Controller, Get, Post, Query, Body} from '@nestjs/common';
-import { CardService } from '../services';
+import { CardService, QuizzService } from '../services';
 import { Card } from '../entities';
 import {CardUserData, CardDTO } from 'types';
 
@@ -11,7 +11,8 @@ const mapCardCategory = (card:Card) => {
 @Controller('cards')
 export class ConnectedUserController {
     constructor(
-        private readonly cardService: CardService
+        private readonly cardService: CardService,
+        private readonly quizzService: QuizzService
     ) {}
 
     @Get()
@@ -29,6 +30,19 @@ export class ConnectedUserController {
     async createCard(@Body() cardData: CardUserData): Promise<CardDTO> {
         const card = await this.cardService.createCard(cardData);
         return mapCardCategory(card);
+    }
+
+    @Get('/quizz')
+    async getQuizz(@Query('date') date?: string) {
+        let quizzDate: Date;
+        if(date) {
+            quizzDate = new Date(date);
+        } else {
+            quizzDate = new Date();
+        }
+        const quizz = await this.quizzService.getQuizz(quizzDate);
+
+        return quizz.map(mapCardCategory);
     }
 
 }

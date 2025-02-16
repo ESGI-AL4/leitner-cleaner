@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { ConnectedUserController } from './connectedUser.controller';
-import { CardService } from '../services';
+import { CardService, QuizzService } from '../services';
 import { CardUserData } from 'types';
 import { Card } from '../entities';
 
@@ -85,6 +85,11 @@ describe('ConnectedUserController tests', () => {
                 })
                 }
             }
+            if(token === QuizzService) {
+                return {
+                    getQuizz: jest.fn(() => cards)
+                }
+            }
         }).compile();
         
         controller = module.get<ConnectedUserController>(ConnectedUserController);
@@ -128,6 +133,14 @@ describe('ConnectedUserController tests', () => {
             category: 'FIRST'
         });
         expect(cards).toHaveLength(oldLength + 1);
+    });
+
+    it('should return all cards for the quizz', async () => {
+        expect(await controller.getQuizz()).toEqual(cards.map(mapCardCategory));
+    });
+
+    it('should return all cards for the quizz on a specific date', async () => {
+        expect(await controller.getQuizz('2025-01-01')).toEqual(cards.map(mapCardCategory));
     });
 
 });

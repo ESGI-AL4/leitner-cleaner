@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { ConnectedUserController } from './connectedUser.controller';
 import { CardService } from '../services';
+import { CardUserData } from 'types';
 
 describe('ConnectedUserController tests', () => {
 
@@ -69,7 +70,12 @@ describe('ConnectedUserController tests', () => {
             if(token === CardService) {
                 return {
                     getAllCards: jest.fn(() => cards),
-                    getTags: jest.fn((tags: string[]) => cards.filter(card => tags.includes(card.tag)))
+                    getTags: jest.fn((tags: string[]) => cards.filter(card => tags.includes(card.tag))),
+                    createCard: jest.fn((cardData) => {
+                        const newCard = {id: 'a420531b-6123-4b88-a642-2b593fbbaf31', ...cardData, category: 1};
+                        cards.push(newCard);
+                        return newCard;
+                })
                 }
             }
         }).compile();
@@ -100,5 +106,21 @@ describe('ConnectedUserController tests', () => {
     it('should return all cards with tag test and test2', async () => {
         expect(await controller.getCards('test,test2')).toEqual(cardsWithTags(['test', 'test2']));
     })
+
+    it('should create a new card', async () => {
+        const newCard:CardUserData = {
+            question: 'What is the capital of Canada?',
+            answer: 'Ottawa',
+            tag: null
+        }
+        const oldLength = cards.length;
+        const createdCard = await controller.createCard(newCard);
+        expect(createdCard).toEqual({
+            id: expect.any(String),
+            ...newCard,
+            category: 1
+        });
+        expect(cards).toHaveLength(oldLength + 1);
+    });
 
 });

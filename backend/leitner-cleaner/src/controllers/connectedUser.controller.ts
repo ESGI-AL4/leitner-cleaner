@@ -1,6 +1,7 @@
-import {Controller, Get, HttpException, HttpStatus, Query} from '@nestjs/common';
+import {Controller, Get, HttpException, HttpStatus, Post, Query, Body} from '@nestjs/common';
 import { CardService } from '../services';
 import { Card } from '../entities';
+import { CardRepoPayload, CardUserData } from 'types';
 
 @Controller('cards')
 export class ConnectedUserController {
@@ -15,4 +16,10 @@ export class ConnectedUserController {
         }
         return this.cardService.getAllCards();
     }
+
+    @Post()
+    async createCard(@Body() cardData: CardUserData): Promise<Card> {
+        return this.cardService.createCard(cardData);
+    }
+
 }

@@ -256,4 +256,10 @@ describe('CardService tests', () => {
         const result = getCardsWithTags(tags).sort((card1, card2) => card1.id.localeCompare(card2.id));
         expect((await service.getTags(tags)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);
     });
+
+    it('getTags should return all cards with tags "test" and "test3"', async () => {
+        const tags = ['test', 'test3'];
+        const result = getCardsWithTags(tags).sort((card1, card2) => card1.id.localeCompare(card2.id));
+        expect((await service.getTags(tags)).sort((card1, card2) => card1.id.localeCompare(card2.id))).toEqual(result);
+    });
 });

@@ -2,7 +2,7 @@ import {QuizzService} from './quizz.service';
 import {CardService} from './card.service';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Card } from '../entities';
+import { Quizz } from '../entities';
 
 describe('QuizzService tests', () => {
     let service: QuizzService;
@@ -71,7 +71,17 @@ describe('QuizzService tests', () => {
     beforeEach(async () => {
         const module = await Test.createTestingModule({
             providers: [
-                QuizzService
+                QuizzService,
+                {
+                    provide: getRepositoryToken(Quizz),
+                    useValue: {
+                        find: jest.fn((query) =>{
+                            return query.where.date.getTime() === new Date('2024-01-03').getTime() ? true : false;
+                        }
+
+                        ),
+                    }
+                }
             ]
         }).useMocker(token => {
             if(token === CardService) {
@@ -144,6 +154,12 @@ describe('QuizzService tests', () => {
         expect(questions).toEqual(expectedQuestions);
     });
 
+    it('should return an empty array when quizz already exists', () => {
+        const date = new Date('2024-01-03');
+        service.getQuizz(date);
+        expect(service.getQuizz(date)).toEqual([]);
+    });
+    
     it('should change category of card to 1 when failing question', async () => {
         const id = 'a420531b-6123-4b88-a642-2b593fbbaf31';
         await service.answerQuestion(id, false);
